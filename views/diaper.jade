@@ -1,0 +1,57 @@
+html
+  head
+    title!= title
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(href='stylesheets/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(href='stylesheets/jumbotron-narrow.css' rel='stylesheet')
+  body
+div(class="container") 
+  div(class="header")
+    ul(class="nav nav-pills pull-right" role="tablist") 
+      li(role="presentation")
+        a(href="/meals") Meals
+      li(role="presentation" class="active") 
+        a(href="/diaper") Diaper
+      li(role="presentation")
+        a(href="temp") Temp
+      li(role="presentation")
+        a(href="/pics") Pics
+    h3(class="text-muted")
+      | Mars BabyApp
+
+  div(class="jumbotron")
+    h2!= message
+    form(action="/test" method="post" class="diaperForm")
+      div(class="btn-group diaper-buttons")
+        button(type="button submit" class="btn btn-success pee" name="form" value="pee")
+          | Pee
+        button(type="button submit" class="btn btn-warning shart" name="form" value="shart")
+          | Shart
+        button(type="button submit" class="btn btn-danger poo" name="form" value="poo")
+          | Poo
+
+  div(class="row marketing") 
+        div(class="col-lg-16")
+          table(class="table table-striped")
+            thead
+              tr
+                td 
+                  b time
+                td 
+                  b type
+            tbody(id="diaperTableBody")
+              for i in data
+                - i = JSON.parse(i.value)
+                tr
+                  - i.diaperTime = (new Date(i.diaperTime).toString())
+                  td=i.diaperTime.substring(0, 21).replace(/201./, '')
+                  td=i.type
+
+      div(class="footer")
+        p 
+          | © Marceline 2014
+
+  script(src='javascripts/diaper.js')
+

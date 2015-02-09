@@ -1,0 +1,10 @@
+tr
+  - dateStart = (new Date(dateStart).toString())
+  - dateEnd = (new Date(dateEnd).toString())
+  - if(dateEnd === "Invalid Date")
+    - dateEnd = "No end added yet"
+    - total = "..."
+  td=dateStart.substring(0, 21).replace(/201./, '')
+  td=dateEnd.substring(0, 21).replace(/201./, '')
+  td=total
+    |  m(s)
