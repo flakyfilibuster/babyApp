@@ -18,7 +18,7 @@ mealButton.addEventListener('click', function(e) {
   clickTarget.setAttribute('disabled', true);
 
   if (clickTarget.className.match(/start/i)) {
-    ajax('get','/start', null,
+    ajax('get','/meals/start', null,
       function success(data) {
         var myRow = document.createElement("tr");
         myRow.classList.add('current')
@@ -33,7 +33,7 @@ mealButton.addEventListener('click', function(e) {
         clickTarget.removeAttribute('disabled');
     });
   } else if (clickTarget.className.match(/stop/i)) {
-    ajax('get','/stop', null,
+    ajax('get','/meals/stop', null,
       function success(data) {
         var myRow = document.createElement("tr");
         myRow.innerHTML = data;
@@ -69,14 +69,3 @@ function ajax(method, url, params, cbSuccess, cbError) {
   });
   xhr.send(params);
 };
-
-
-// websocket playground
-var host = window.document.location.host.replace(/:.*/, '');
-var ws = new WebSocket('ws://' + host + ':3000');
-
-ws.addEventListener('message', function(e) {
-  if(JSON.parse(e.data).type === "data") {
-    console.log('data received');
-  }
-})
