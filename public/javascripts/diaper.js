@@ -4,7 +4,7 @@ var diaperTable = document.getElementById('diaperTableBody');
 diaperForm.addEventListener('submit', function(e) {
   var diaperInfo = new FormData(diaperForm);
   e.preventDefault();
-  ajax('post', '/addDiaper', diaperInfo, function success(data) {
+  ajax('post', '/diaper', diaperInfo, function success(data) {
     var myRow = document.createElement("tr");
     myRow.innerHTML = data;
     diaperTable.insertBefore(myRow, diaperTable.firstChild);
