@@ -1,56 +1,45 @@
-var mealButton = document.querySelector('#timerBtn');
+var mealButton = $('#timerBtn .btn');
 var mealTable = document.getElementById('mealTableBody');
 
-//utility function to toggle multiple classes at once
-DOMTokenList.prototype.toggleMany = function() {
-  var array = [].slice.call(arguments);
-  array.forEach(function(toggleClass) {
-    this.toggle(toggleClass);
-  }, this)
-  return this;
-};
-
-
 // clickHandler for the mealButton
-mealButton.addEventListener('click', function(e) {
+mealButton.on('click', function(e) {
   e.preventDefault();
-  var clickTarget = e.target;
-  clickTarget.setAttribute('disabled', true);
 
-  if (clickTarget.className.match(/start/i)) {
+  var self = $(this);
+  self.prop("disabled", true);
+
+  if (self.hasClass("mealStart")) {
     ajax('get','/meals/start', null,
       function success(data) {
         var myRow = document.createElement("tr");
         myRow.classList.add('current')
         myRow.innerHTML = data;
         mealTable.insertBefore(myRow, mealTable.firstChild);
-        clickTarget.classList.toggleMany("btn-success","mealStart","btn-warning","mealStop");
-        clickTarget.innerHTML = 'Stop Meal'
-        clickTarget.removeAttribute('disabled');
+        self.toggleClass("btn-success mealStart btn-warning mealStop");
+        self.text('Stop Meal');
+        self.prop("disabled", false);
       },
       function error(err) {
         console.log(err);
-        clickTarget.removeAttribute('disabled');
+        self.prop("disabled", false);
     });
-  } else if (clickTarget.className.match(/stop/i)) {
+  } else if (self.hasClass("mealStop")) {
     ajax('get','/meals/stop', null,
       function success(data) {
         var myRow = document.createElement("tr");
         myRow.innerHTML = data;
         var replaceRow = mealTable.querySelector(".noEnd") || mealTable.querySelector(".current");
         replaceRow.parentNode.replaceChild(myRow, replaceRow)
-        clickTarget.classList.toggleMany("btn-success","mealStart","btn-warning","mealStop");
-        clickTarget.innerHTML = 'Start Meal'
-        clickTarget.removeAttribute('disabled');
+        self.toggleClass("btn-success mealStart btn-warning mealStop");
+        self.text('Start Meal')
+        self.prop('disabled', false);
       },
       function error(err) {
         console.log(err);
-        clickTarget.removeAttribute('disabled');
+        self.prop('disabled', false);
     });
   }
-
-
-}, false);
+});
 
 
 // ajax utility function
