@@ -5,7 +5,7 @@ var express = require('express'),
 
 mealsRoute
 .get('/', function (req, res) {
-  meal.getTimeSinceLastMeal(function(timeSinceLastMeal) {
+  meal.getTimeSinceLastEntry(function(timeSinceLastMeal) {
     meal.findAll('reverse', function(mealData) {
       res.render('index', {
         title: 'Line babyApp',
