@@ -7,7 +7,7 @@ mealsRoute
 .get('/', function (req, res) {
   meal.getTimeSinceLastEntry(function(timeSinceLastMeal) {
     meal.findAll('reverse', function(mealData) {
-      res.render('index', {
+      res.render('meals', {
         title: 'Line babyApp',
         dateStart: meal.dateStart,
         message: 'Meals',

@@ -1,0 +1,54 @@
+html
+  include _head
+  body
+
+    include _nav
+
+    div(class="container")
+      div(class="jumbotron starter-template")
+        div(id="timerBtn")
+          - if (dateStart!==null)
+            a(class="mealStop btn btn-lg btn-warning" href="#" role="button")
+              | Stop Meal
+          - else
+            a(class="mealStart btn btn-lg btn-success" href="#" role="button")
+              | Start Meal
+          h6
+            | time since last meal:
+            span(class="timePassed")
+              span(class="hours")=timeSinceLastMeal.hours
+                | hr(s)
+              span(class="minutes")=timeSinceLastMeal.mins
+                | m(s)
+
+      div(class="col-lg-16")
+        table(class="table table-striped")
+          thead
+            tr
+              td
+                b start
+              td
+                b end
+              td
+                b total
+          tbody
+            for i in data
+              - i = JSON.parse(i.value)
+              - var hasEnd = (i.dateEnd === "no end yet") ? "noEnd" : "";
+              tr(class=hasEnd)
+                - i.dateStart = (new Date(i.dateStart).toString())
+                - i.dateEnd = (new Date(i.dateEnd).toString())
+                - if(i.dateEnd === "Invalid Date")
+                  - i.dateEnd = "No end added yet"
+                  - i.total = "..."
+                td=i.dateStart.substring(0, 21).replace(/201./, '')
+                td=i.dateEnd.substring(0, 21).replace(/201./, '')
+                td=i.total
+                  |  m(s)
+
+    include _footer
+
+  script(src='bower_components/jquery/dist/jquery.min.js')
+  script(src='bower_components/bootstrap-css/js/bootstrap.min.js')
+  script(src='javascripts/app.js')
+
