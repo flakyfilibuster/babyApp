@@ -1,48 +1,55 @@
-var mealTable = $('#mealTableBody');
+var marsApp = marsApp || {};
 
-// clickHandler for the mealButton
-$('#timerBtn .btn').on('click', function(e) {
-  e.preventDefault();
+marsApp.meals = (function($) {
+  'use strict'
 
-  var self = $(this);
-  self.prop("disabled", true);
+  var mealTable = $('table tbody');
 
-  if (self.hasClass("mealStart")) {
-    $.ajax({
-      type: "GET",
-      url: "/meals/start"
-    })
-    .error(function(err) {
-      console.log(err);
-      self.prop("disabled", false);
-    })
-    .done(function(data) {
-      // create tr element via $
-      var myRow = $(data).addClass("noEnd");
+  // clickHandler for the mealButton
+  $('#timerBtn .btn').on('click', function(e) {
+    e.preventDefault();
 
-      mealTable.find("tr:first").before(myRow);
-      self.toggleClass("btn-success mealStart btn-warning mealStop");
-      self.text('Stop Meal');
-      self.prop("disabled", false);
-    });
-  } else if (self.hasClass("mealStop")) {
-    $.ajax({
-      type: "GET",
-      url: "/meals/stop"
-    })
-    .error(function(err) {
-      console.log(err);
-      self.prop('disabled', false);
-    })
-    .done(function(data) {
-      // create tr element via $
-      var myRow = $(data);
+    var self = $(this);
+    self.prop("disabled", true);
 
-      // find the row with no end time and replace it
-      mealTable.find(".noEnd").replaceWith(myRow);
-      self.toggleClass("btn-success mealStart btn-warning mealStop");
-      self.text('Start Meal');
-      self.prop('disabled', false);
-    });
-  }
-});
+    if (self.hasClass("mealStart")) {
+      $.ajax({
+        type: "GET",
+        url: "/meals/start"
+      })
+      .error(function(err) {
+        console.log(err);
+        self.prop("disabled", false);
+      })
+      .done(function(data) {
+        // create tr element via $
+        var myRow = $(data).addClass("noEnd");
+
+        mealTable.find("tr:first").before(myRow);
+        self.toggleClass("btn-success mealStart btn-warning mealStop");
+        self.text('Stop Meal');
+        self.prop("disabled", false);
+      });
+    } else if (self.hasClass("mealStop")) {
+      $.ajax({
+        type: "GET",
+        url: "/meals/stop"
+      })
+      .error(function(err) {
+        console.log(err);
+        self.prop('disabled', false);
+      })
+      .done(function(data) {
+        // create tr element via $
+        var myRow = $(data);
+
+        // find the row with no end time and replace it
+        mealTable.find(".noEnd").replaceWith(myRow);
+        self.toggleClass("btn-success mealStart btn-warning mealStop");
+        self.text('Start Meal');
+        self.prop('disabled', false);
+      });
+    }
+  });
+})(jQuery);
+  

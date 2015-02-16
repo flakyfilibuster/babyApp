@@ -1,32 +1,21 @@
-var diaperForm = document.querySelector(".diaperForm")
-var diaperTable = document.getElementById('diaperTableBody');
+var marsApp = marsApp || {};
 
-diaperForm.addEventListener('submit', function(e) {
-  var diaperInfo = new FormData(diaperForm);
-  e.preventDefault();
-  ajax('post', '/diaper', diaperInfo, function success(data) {
-    var myRow = document.createElement("tr");
-    myRow.innerHTML = data;
-    diaperTable.insertBefore(myRow, diaperTable.firstChild);
-  }, function error(err) {
-    console.log(err);
-  });
-})
+marsApp.diapers = (function($) {
+  'use strict'
 
-
-// ajax utility function
-function ajax(method, url, params, cbSuccess, cbError) {
-  var xhr = new XMLHttpRequest()
-  xhr.open(method, url, true);
-  xhr.addEventListener('load', function(e) {
-    if(xhr.readyState === 4) {
-      if(xhr.status === 200) {
-        cbSuccess(xhr.response);
-      } else {
-        cbError(xhr.response);
-      }
-      console.log('done');
-    }
-  });
-  xhr.send(params);
-};
+  // post formData with the type of diaper
+  $('.diaperForm').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "/diapers",
+      processData: false,
+      contentType: false,
+      data: new FormData(this)
+    })
+    .done(function(data) {
+      // when all went well through the new row in the table
+      $('table tbody').find("tr:first").before($(data));
+    });
+  })
+})(jQuery);

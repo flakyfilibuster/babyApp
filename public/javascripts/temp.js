@@ -1,36 +1,32 @@
-var tempForm = document.querySelector(".tempForm")
-var tempTable = document.getElementById('tempTableBody');
+var marsApp = marsApp || {};
 
-tempForm.addEventListener('submit', function(e) {
-  var tempInfo = new FormData(tempForm);
-  e.preventDefault();
-  ajax('post', '/temp', tempInfo, function success(data) {
-    var myRow = document.createElement("tr");
-    myRow.innerHTML = data;
-    tempTable.insertBefore(myRow, tempTable.firstChild);
-  }, function error(err) {
-    console.log(err);
+marsApp.temps = (function($) {
+  'use strict'
+
+  var tempForm = $(".tempForm");
+
+  tempForm.on('submit', function(e) {
+    e.preventDefault();
+
+    $.ajax({
+      type: "POST",
+      url: "/temps",
+      processData: false,
+      contentType: false,
+      data: new FormData(this)
+    })
+    .done(function(data) {
+      // when all went well through the new row in the table
+      $('table tbody').find("tr:first")
+        .before($(data).hide()
+                .show('slow'));
+      tempForm.find('.btn').text('submit');
+      tempForm.find('.temp').val(38);
+    });
+  })
+
+  tempForm.on('input', function(e) {
+    tempForm.find('.btn').text(tempForm.find('.temp').val() + " C ");
   });
-})
 
-tempForm.addEventListener('input', function(e) {
-  tempForm.tmpBtn.innerHTML = tempForm.temp.value + " C";
-});
-
-
-// ajax utility function
-function ajax(method, url, params, cbSuccess, cbError) {
-  var xhr = new XMLHttpRequest()
-  xhr.open(method, url, true);
-  xhr.addEventListener('load', function(e) {
-    if(xhr.readyState === 4) {
-      if(xhr.status === 200) {
-        cbSuccess(xhr.response);
-      } else {
-        cbError(xhr.response);
-      }
-      console.log('done');
-    }
-  });
-  xhr.send(params);
-};
+})(jQuery);
