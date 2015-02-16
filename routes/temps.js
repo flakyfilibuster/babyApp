@@ -26,7 +26,7 @@ temp
   findAll('temp-', 'reverse', function(temps) {
     res.render('temp', {
       title: 'Line babyApp',
-      message: 'Temperature',
+      message: 'Temps',
       data: temps
     });
   });
