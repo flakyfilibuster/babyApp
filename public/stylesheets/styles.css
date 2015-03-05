@@ -33,6 +33,24 @@ body {
 
 .footer div p {
   margin: 0;
-  padding-top: 6px; 
+  padding-top: 6px;
 }
 
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0;
+  cursor: inherit;
+}
+
+#picPrev {
+  max-height: 128px;
+}
