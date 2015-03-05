@@ -1,1 +1,5 @@
 *.swp
+mydb
+bower_components
+node_modules
+public/uploads
