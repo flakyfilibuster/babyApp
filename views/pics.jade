@@ -1,0 +1,28 @@
+html
+  include _head
+  body
+
+    include _nav
+
+    div(class="container")
+      div(class="jumbotron starter-template")
+        form(id="picForm" enctype='multipart/form-data')
+          div
+            img(id="picPrev" class="hidden img-thumbnail" src="" alt="your image")
+          span(class="btn btn-default btn-file")
+            | Add Image
+            input(type="file" accept="image/*" id="picInput" name="file")
+          button(id="picUpload" class="btn btn-default hidden")
+            | Upload
+      div(class="row")
+        for i in data
+          div(class="col-xs-6 col-md-3")
+            a(href="javascript:void()" class="thumbnail")
+              img(class="picThumb" src="uploads/#{i}" alt="...")
+
+    include _footer
+
+  script(src='bower_components/jquery/dist/jquery.min.js')
+  script(src='bower_components/bootstrap-css/js/bootstrap.min.js')
+  script(src='javascripts/pics.js')
+
