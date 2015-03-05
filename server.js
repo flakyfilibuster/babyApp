@@ -5,7 +5,7 @@ var db = require('./leveldb').connect();
 
 app.use(express.static(__dirname + '/public'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
-app.use(multer({ dest: './uploads/'}));
+app.use(multer({ dest: './public/uploads/'}));
 app.set('views', './views');
 app.set('view engine', 'jade');
 
@@ -18,6 +18,7 @@ app.get('/', function (req, res) {
 app.use('/temps', require('./routes/temps.js'));
 app.use('/diapers', require('./routes/diapers.js'));
 app.use('/meals', require('./routes/meals.js'));
+app.use('/pics', require('./routes/pics.js'));
 
 var server = app.listen(3000, function () {
   var host = server.address().address
