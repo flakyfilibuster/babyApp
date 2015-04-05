@@ -11,7 +11,7 @@ picture
 
   // get the images and sort them by modified date
   var pictures = fs.readdirSync(dir).sort(function(a, b) {
-    return fs.statSync(dir + a).mtime.getTime() - fs.statSync(dir + b).mtime.getTime();
+    return fs.statSync(dir + b).mtime.getTime() - fs.statSync(dir + a).mtime.getTime();
   });
 
   res.render('pics', {
