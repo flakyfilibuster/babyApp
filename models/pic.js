@@ -18,6 +18,6 @@ Pic.prototype.findAll = function(order, cb) {
   return fs.readdirSync(dir).sort(function(a, b) {
     return fs.statSync(dir + b).mtime.getTime() - fs.statSync(dir + a).mtime.getTime();
   }).slice(0,12);
-}
+};
 
 module.exports = Pic;
