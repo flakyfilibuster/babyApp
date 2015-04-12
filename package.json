@@ -8,11 +8,15 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "bower": "^1.4.1",
     "express": "~4.10.1",
     "jade": "~1.7.0",
-    "multer": "~0.1.6",
-    "levelup": "~0.19.0",
     "leveldown": "~0.10.0",
+    "levelup": "~0.19.0",
+    "multer": "~0.1.6",
     "ws": "~0.5.0"
+  },
+  "scripts": {
+    "postinstall" : "node_modules/.bin/bower install"
   }
 }
