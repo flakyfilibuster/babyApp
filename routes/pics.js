@@ -1,28 +1,22 @@
-var express = require('express');
-var db = require('../leveldb').connect();
-var picture = express.Router();
-var fs = require('fs');
-var path = require('path');
+var express = require('express'),
+  db = require('../leveldb').connect(),
+  picsRoute = express.Router(),
+  Pic = require('../models/pic.js'),
+  pic = new Pic();
 
-picture
+picsRoute
 .get('/', function (req, res) {
-  // get path for uploaded images
-  var dir = path.resolve(__dirname, '../public/uploads/') + '/';
-
-  // get the images and sort them by modified date
-  var pictures = fs.readdirSync(dir).sort(function(a, b) {
-    return fs.statSync(dir + b).mtime.getTime() - fs.statSync(dir + a).mtime.getTime();
-  });
+  var pictures = pic.findAll();
 
   res.render('pics', {
     title: 'Line babyApp',
-    message: 'pictures',
+    message: 'Pics',
     data: pictures
   });
 })
 
 .post('/', function(req, res) {
   res.status(200).send('all ok');
-})
+});
 
-module.exports = picture;
+module.exports = picsRoute;
