@@ -54,3 +54,8 @@ body {
 #picPrev {
   max-height: 128px;
 }
+
+/*in order to prevent the navbar to flicker on scroll*/
+nav.navbar {
+  -webkit-backface-visibility: hidden;
+}
