@@ -4,10 +4,14 @@ function readURL(input) {
 
     reader.onload = function (e) {
       $('#picPrev').attr('src', e.target.result);
-      $('#picPrev').removeClass('hidden');
-      $('#picUpload').removeClass('hidden');
+      $('.jumbotron.starter-template').animate(
+        {"height" : "260px"}, function() {
+          $('#picPrev').removeClass('hidden').addClass('animated fadeInDown');
+          $('#picUpload').removeClass('hidden').addClass('animated fadeInRight');
+          $('.btn-default.btn-file').addClass('animated fadeInLeft');
+        }
+      );
     }
-
     reader.readAsDataURL(input.files[0]);
   }
 }
@@ -25,8 +29,18 @@ $("#picForm").submit(function(e) {
     processData: false,
     contentType: false,
     data: new FormData($("#picForm")[0])
-  }).success(function() {
-    $('#picPrev').addClass('hidden');
-    $('#picUpload').addClass('hidden');
+  }).done(function() {
+    $('#picPrev').addClass('fadeOutUp')
+      .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(item) {
+        $(item.target)
+          .addClass('hidden')
+          .removeClass('animated fadeInDown fadeOutUp')
+          .attr('src', '');
+      });
+    $('#picUpload').addClass('fadeOutRight')
+      .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(item) {
+        $(item.target).addClass('hidden').removeClass('animated fadeInRight fadeOutRight');
+        $('.jumbotron.starter-template').animate({"height" : "100px"});
+      });
   })
 });

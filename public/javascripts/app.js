@@ -23,9 +23,10 @@ marsApp.meals = (function($) {
       })
       .done(function(data) {
         // create tr element via $
-        var myRow = $(data).addClass("noEnd");
+        var myRow = $(data).addClass("noEnd animated fadeInDown");
 
         mealTable.find("tr:first").before(myRow);
+
         self.toggleClass("btn-success mealStart btn-warning mealStop");
         self.text('Stop Meal');
         self.prop("disabled", false);
@@ -41,10 +42,13 @@ marsApp.meals = (function($) {
       })
       .done(function(data) {
         // create tr element via $
-        var myRow = $(data);
+        var myRow = $(data).addClass("animated fadeInUp");
 
         // find the row with no end time and replace it
-        mealTable.find(".noEnd").replaceWith(myRow);
+        mealTable.find(".noEnd").addClass("animated fadeOutDown")
+          .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(item) {
+            $(item.target).replaceWith(myRow);
+          });
         self.toggleClass("btn-success mealStart btn-warning mealStop");
         self.text('Start Meal');
         self.prop('disabled', false);
@@ -52,4 +56,3 @@ marsApp.meals = (function($) {
     }
   });
 })(jQuery);
-  
